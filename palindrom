@@ -1,0 +1,31 @@
+def is_symbol(char):
+    return not char.isalnum() and not char.isspace()
+
+def palindrom(word, errors):
+    if len(word) == 0:
+        errors.append("empty")
+        return False, errors
+    if len(word) == 1:
+        return True, errors
+    if word[0] != word[-1]:
+        return False, errors
+    if any(char.isdigit() for char in word):
+        errors.append("digit")
+    if any(is_symbol(char) for char in word):
+        errors.append("symbol")
+    return palindrom(word[1:-1], errors)
+
+x = input("Enter a word: ")
+
+errors = []
+is_palindrome, errors = palindrom(x, errors)
+
+if is_palindrome:
+    print("Yes")
+else:
+    print("No")
+
+if errors:
+    print("Errors:")
+    for error in errors:
+        print(f'- {error}')
